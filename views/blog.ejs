@@ -1,0 +1,65 @@
+<%- include("partials/header") -%>
+
+
+<div class="homeBg">
+  <div class="header">
+    <div class="topHeader">
+      <h1>WHAT WEED IS AND WHY YOU SHOULD SMOKE THAT SHIT!</h1>
+    </div>
+  </div>
+
+  <center>
+    <p class="text-muted">-A 5 minute read-</p>
+  </center>
+
+  <article class="content">
+    <p class="firstP">
+      Marijuana—also called weed, herb, pot, grass, bud, ganja, Mary Jane, and a vast number of other slang terms—is a greenish-gray mixture of the dried flowers of Cannabis sativa. Some people smoke marijuana in hand-rolled cigarettes called joints; in pipes, water pipes (sometimes called bongs), or in blunts (marijuana rolled in cigar wraps). Marijuana can also be used to brew tea and, particularly when it is sold or consumed for medicinal purposes, is frequently mixed into foods (edibles) such as brownies, cookies, or candies.
+    </p>
+    <br>
+    <h3>A short story about Weed</h3>
+    <img src="images/weed-story.jpg" width="350px" height="500px" alt="">
+    <p>
+      Weed is a beautiful thing.<br><br>I was in First Year and someone on my floor had weed. My roommate and I decided to try them out, even though we weren't exactly that experienced with weed. We smoked them(The blunt was rolled horribly) and didn't feel anything for 20 minutes. Then all of a sudden, we were legitimately swaying and floating. We decided to crawl to the next floor while making animal noises.
+      We got poutine and realized we were waaay too high, so we went to our friend's room to tell him the story of the mountain monk(a story that obviously doesn't exist). He wasn't there, so we lay outside his door hoping he would come back while singing nursery rhymes. We then tried to call people on our floor to come get us, but every time someone would answer the phone, I suddenly lost the ability to form words. Eventually, our friend came back, only to find us lying outside his door covered in poutine. Not our finest hour 😂.
+    </p>
+    <ul>
+      <li><p><a href="https://www.healtheuropa.com/health-benefits-of-cannabis/92499/">Here's</a> an article by the Health Europa on the benefits of smoking weed.</p></li>
+    </ul>
+  </article>
+
+  <div class="morePosts">
+    <div class="otherPosts">
+      <hr>
+      <h3 class="others">Stoner 101: Ash Before You Pass.</h3>
+      <p><em>This is the first rule of smoking with a gang. Now, who the fuck wants weed on their <a href="/ash-before-you-pass">...read more</a></em></p>
+      <hr>
+    </div>
+
+    <div class="otherPosts">
+      <hr>
+      <h3 class="others">10 Funny 'That High' Stories</h3>
+      <p><em>I had to search my room for the lighter for over 20mins. The lights were off and I was <a href="/funny-how-high-stories">...read more</a></em></p>
+      <hr>
+    </div>
+
+    <% newPosts.forEach(function(post){ %>
+      <div class="otherPosts">
+        <hr>
+        <h3 class="others"><%=post.title%></h3>
+        <p><%=post.content.substring(0, 80) + " ..."%><a href="/posts/<%=post.title%>"><em>read more</em></a></p>
+        <hr>
+      </div>
+    <% }) %>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+<%- include("partials/footer") -%>
