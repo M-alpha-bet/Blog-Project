@@ -2,21 +2,44 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const ejs = require("ejs");
+const mongoose = require("mongoose");
 const _ = require("lodash");
 
 
 const app = express();
-const newPosts = [];
+
+//mongo connection
+mongoose.set("strictQuery", false);
+const mongoURL = "mongodb+srv://martinelli:0GpBqEXRrBhmSJFB@clusterm.glfywxd.mongodb.net/blogDB";
+mongoose.connect(mongoURL, {useNewUrlParser: true});
+
 
 // set the view engine to ejs
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({extended: true}));
 
+//MongoSchema and model
+const postSchema = {
+  title: {
+    type: String,
+    required: [true, "Provide a post title"]
+  },
+  content: {
+    type: String,
+    required: [true, "Your content page cannot be empty"]
+  },
+}
+
+const Post = mongoose.model("Post", postSchema);
+
+
 // Pages to be rendered using ejs
-app.get("/", function(req, res) {;
-  res.render("blog", {
-    newPosts: newPosts,
+app.get("/", function(req, res) {
+  Post.find({}, function(err, result) {
+    res.render("blog", {
+      newPosts: result,
+    });
   });
 });
 
@@ -42,19 +65,17 @@ app.get("/compose", function(req, res) {
 
 
 // Rendering multiple created blog pages using express routing params
-app.get("/posts/:topic", function(req, res) {
-  let postTopic = _.lowerCase(req.params.topic);
+app.get("/posts/:postId", function(req, res) {
+  const newPostId = req.params.postId;
 
-  newPosts.forEach(function(post) {
-    const postTitle = _.lowerCase(post.title);
-
-    if (postTopic === postTitle) {
+  Post.findOne({_id: newPostId}, function(err, result) {
+    if (!err) {
       res.render("post", {
-        title: post.title,
-        content: post.content,
+        title: _.toUpper(result.title),
+        content: result.content,
       });
     } else {
-      res.send("<h1>Error 404!!!</h1>")
+      res.send("<h1>Couldn't retrieve post from the database</h1>")
     }
   });
 });
@@ -62,13 +83,16 @@ app.get("/posts/:topic", function(req, res) {
 
 // Stores new blog post title and content and pushes to newPosts array
 app.post("/compose", function(req, res) {
-  let newPost = {
+  const newPost = new Post ({
     title: req.body.title,
     content: req.body.content,
-  }
-  newPosts.push(newPost);
+  });
 
-  res.redirect("/");
+  newPost.save(function(err) {
+    if (!err) {
+      res.redirect("/");
+    }
+  });
 });
 
 

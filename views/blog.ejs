@@ -47,7 +47,7 @@
       <div class="otherPosts">
         <hr>
         <h3 class="others"><%=post.title%></h3>
-        <p><%=post.content.substring(0, 80) + " ..."%><a href="/posts/<%=post.title%>"><em>read more</em></a></p>
+        <p><em><%=post.content.substring(0, 80) + " ..."%><a href="/posts/<%=post._id%>">read more</a></em></p>
         <hr>
       </div>
     <% }) %>
